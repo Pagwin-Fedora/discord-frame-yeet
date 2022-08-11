@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc; cp src/config.json out"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
