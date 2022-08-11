@@ -1,0 +1,8 @@
+{
+    "extends": "@tsconfig/node17/tsconfig.json",
+    "incremental": true,
+    "include": ["src/**/*"],
+    "compilerOptions":{
+	"outDir": "out"
+    }
+}

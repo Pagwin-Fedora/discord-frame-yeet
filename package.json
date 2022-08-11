@@ -1,0 +1,19 @@
+{
+  "name": "discord_frame_yeet_v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc; cp src/config.json out"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node17": "^1.0.1",
+    "discord.js": "^14.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
