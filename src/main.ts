@@ -11,9 +11,9 @@ let acting_guild:string = process.env.DISCORD_GUILD_ID?process.env.DISCORD_GUILD
 
 // a list of member ids
 let mem_ids = process.env.DISCORD_MEMBER_IDS;
-// a pair of member ids which all selected will fall between
-let mem_interval = process.env.DISCORD_SUS_INTERVAL;
 // a time interval measured in seconds specifying how close 2 members join together in order to be selected
+let mem_interval = process.env.DISCORD_SUS_INTERVAL;
+// a pair of member ids which all selected will fall between
 let mem_range = process.env.DISCORD_MEMBER_RANGE;
 // the action to be taken if a member matches criteria
 let _action = process.env.DISCORD_DETECT_ACTION;
@@ -55,11 +55,14 @@ else {
     member_range = null;
 }
 // creation of a client
-const client = new Client({intents:GatewayIntentBits.Guilds});
+const client = new Client({intents:GatewayIntentBits.Guilds | GatewayIntentBits.GuildMembers});
 
 client.once('ready', async ()=>{
+    console.log("ready");
     let guild = await client.guilds.fetch(acting_guild);
+    console.log("ready");
     let members = await guild.members.fetch();
+    console.log("ready");
     //specifies the earliest point where we care about a number and the latest point
     let time_range: [number, number | null] | null = null;
     {
@@ -74,6 +77,8 @@ client.once('ready', async ()=>{
     let mems:GuildMember[] = [];
     //putting all the guild members into a list for convenience
     members.forEach(val=>mems.push(val));
+    mems.forEach(mem=>console.log(mem.id));
+    return;
     mems.sort(MemberListSortKey);
 
     let act_on = mems
@@ -84,7 +89,6 @@ client.once('ready', async ()=>{
 	.filter(TimeRangeFilter(time_range));
     act_on.forEach(MemberAction(action))
 });
-
 client.login(token);
 function MemberListSortKey(mem1:GuildMember, mem2:GuildMember){
     return Number(mem2.joinedTimestamp) - Number(mem1.joinedTimestamp);
@@ -115,11 +119,11 @@ function MemberAction(action:string){
 		console.log(member.id);
 	    break;
 	    case "KICK":
-		member.kick("part of mass kick by moderator/admin");
+		//member.kick("part of mass kick by moderator/admin");
 	    break;
 	    default:
 		let msgDelete: number = Number.parseInt(action.split("(")[1][0]);
-		member.ban({deleteMessageDays:msgDelete,reason:"part of mass ban by moderator/admin"});
+		//member.ban({deleteMessageDays:msgDelete,reason:"part of mass ban by moderator/admin"});
 	    break;
 	}
     }   
